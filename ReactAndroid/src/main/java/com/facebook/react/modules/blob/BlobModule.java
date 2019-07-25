@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 import android.webkit.MimeTypeMap;
 
-import com.facebook.proguard.annotations.DoNotStrip;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -153,11 +152,6 @@ public class BlobModule extends ReactContextBaseJavaModule {
   }
 
   @Override
-  public void initialize() {
-    BlobCollector.install(getReactApplicationContext(), this);
-  }
-
-  @Override
   public String getName() {
     return NAME;
   }
@@ -184,16 +178,11 @@ public class BlobModule extends ReactContextBaseJavaModule {
   }
 
   public void store(byte[] data, String blobId) {
-    synchronized (mBlobs) {
-      mBlobs.put(blobId, data);
-    }
+    mBlobs.put(blobId, data);
   }
 
-  @DoNotStrip
   public void remove(String blobId) {
-    synchronized (mBlobs) {
-      mBlobs.remove(blobId);
-    }
+    mBlobs.remove(blobId);
   }
 
   public @Nullable byte[] resolve(Uri uri) {
@@ -212,19 +201,17 @@ public class BlobModule extends ReactContextBaseJavaModule {
   }
 
   public @Nullable byte[] resolve(String blobId, int offset, int size) {
-    synchronized (mBlobs) {
-      byte[] data = mBlobs.get(blobId);
-      if (data == null) {
-        return null;
-      }
-      if (size == -1) {
-        size = data.length - offset;
-      }
-      if (offset > 0 || size != data.length) {
-        data = Arrays.copyOfRange(data, offset, offset + size);
-      }
-      return data;
+    byte[] data = mBlobs.get(blobId);
+    if (data == null) {
+      return null;
     }
+    if (size == -1) {
+      size = data.length - offset;
+    }
+    if (offset > 0 || size != data.length) {
+      data = Arrays.copyOfRange(data, offset, offset + size);
+    }
+    return data;
   }
 
   public @Nullable byte[] resolve(ReadableMap blob) {
