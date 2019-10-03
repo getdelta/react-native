@@ -7,15 +7,14 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := jscexecutor
+LOCAL_MODULE := v8runtime
 
 LOCAL_SRC_FILES := $(wildcard $(LOCAL_PATH)/*.cpp)
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)
+LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/..
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 
-LOCAL_CFLAGS += -fvisibility=hidden -fexceptions -frtti
+LOCAL_CFLAGS := -fexceptions -frtti -O3
+LOCAL_SHARED_LIBRARIES := libfolly_json libv8 glog
 
-LOCAL_STATIC_LIBRARIES := libjsi libjsireact v8runtime
-LOCAL_SHARED_LIBRARIES := libfolly_json libfb libreactnativejni
-
-include $(BUILD_SHARED_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
