@@ -284,8 +284,14 @@ class MessageQueue {
         JSON.stringify(params, replacer),
       );
 
-      // The params object should not be mutated after being queued
-      deepFreezeAndThrowOnMutationInDev((params: any));
+      try {
+        // The params object should not be mutated after being queued
+        deepFreezeAndThrowOnMutationInDev((params: any));
+      } catch (err) {
+        // This is not a blocking issue, show a warning but continue executing
+        // (see https://github.com/Kudo/react-native-v8/issues/27 for more context)
+        console.warn('Cannot freeze: ' + JSON.stringify(params, replacer));
+      }
     }
     this._queue[PARAMS].push(params);
 
