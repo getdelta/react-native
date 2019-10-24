@@ -12,6 +12,7 @@ import android.os.Build;
 import android.text.Layout;
 import android.view.Gravity;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.ReactStylesDiffMap;
@@ -89,6 +90,11 @@ public class TextAttributeProps {
    */
   protected @Nullable String mFontFamily = null;
 
+  /**
+   * @see android.graphics.Paint#setFontFeatureSettings
+   */
+  protected @Nullable String mFontFeatureSettings = null;
+
   protected boolean mContainsImages = false;
   protected float mHeightOfTallestInlineImage = Float.NaN;
 
@@ -109,6 +115,7 @@ public class TextAttributeProps {
     setFontFamily(getStringProp(ViewProps.FONT_FAMILY));
     setFontWeight(getStringProp(ViewProps.FONT_WEIGHT));
     setFontStyle(getStringProp(ViewProps.FONT_STYLE));
+    setFontVariant(getArrayProp(ViewProps.FONT_VARIANT));
     setIncludeFontPadding(getBooleanProp(ViewProps.INCLUDE_FONT_PADDING, true));
     setTextDecorationLine(getStringProp(ViewProps.TEXT_DECORATION_LINE));
     setTextBreakStrategy(getStringProp(ViewProps.TEXT_BREAK_STRATEGY));
@@ -147,6 +154,14 @@ public class TextAttributeProps {
       return mProps.getFloat(name, defaultvalue);
     } else {
       return defaultvalue;
+    }
+  }
+
+  private ReadableArray getArrayProp(String name) {
+    if (mProps.hasKey(name)) {
+      return mProps.getArray(name);
+    } else {
+      return null;
     }
   }
 
@@ -261,6 +276,10 @@ public class TextAttributeProps {
 
   public void setFontFamily(@Nullable String fontFamily) {
     mFontFamily = fontFamily;
+  }
+
+  public void setFontVariant(ReadableArray fontVariant) {
+    mFontFeatureSettings = ReactTypefaceUtils.parseFontVariant(fontVariant);
   }
 
   /**

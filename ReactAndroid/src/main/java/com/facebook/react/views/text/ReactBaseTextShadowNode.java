@@ -17,6 +17,7 @@ import android.view.Gravity;
 
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 import com.facebook.react.uimanager.LayoutShadowNode;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.Nullable;
 
 /**
@@ -187,6 +189,7 @@ public abstract class ReactBaseTextShadowNode extends LayoutShadowNode {
                 new CustomStyleSpan(
                     textShadowNode.mFontStyle,
                     textShadowNode.mFontWeight,
+                    textShadowNode.mFontFeatureSettings,
                     textShadowNode.mFontFamily,
                     textShadowNode.getThemedContext().getAssets())));
       }
@@ -362,6 +365,11 @@ public abstract class ReactBaseTextShadowNode extends LayoutShadowNode {
    */
   protected @Nullable String mFontFamily = null;
 
+  /**
+   * @see android.graphics.Paint#setFontFeatureSettings
+   */
+  protected @Nullable String mFontFeatureSettings = null;
+
   protected boolean mContainsImages = false;
   protected Map<Integer, ReactShadowNode> mInlineViews;
 
@@ -495,6 +503,16 @@ public abstract class ReactBaseTextShadowNode extends LayoutShadowNode {
 
     if (fontWeight != mFontWeight) {
       mFontWeight = fontWeight;
+      markUpdated();
+    }
+  }
+
+  @ReactProp(name = ViewProps.FONT_VARIANT)
+  public void setFontVariant(ReadableArray fontVariantArray) {
+    String fontFeatureSettings = ReactTypefaceUtils.parseFontVariant(fontVariantArray);
+
+    if (!Objects.equals(fontFeatureSettings, mFontFeatureSettings)) {
+      mFontFeatureSettings = fontFeatureSettings;
       markUpdated();
     }
   }

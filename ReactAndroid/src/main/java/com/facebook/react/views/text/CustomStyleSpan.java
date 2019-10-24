@@ -10,6 +10,7 @@ package com.facebook.react.views.text;
 import android.content.res.AssetManager;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
@@ -34,27 +35,30 @@ public class CustomStyleSpan extends MetricAffectingSpan implements ReactSpan {
 
   private final int mStyle;
   private final int mWeight;
+  private final String mFeatureSettings;
   private final @Nullable String mFontFamily;
 
   public CustomStyleSpan(
       int fontStyle,
       int fontWeight,
+      String fontFeatureSettings,
       @Nullable String fontFamily,
       @NonNull AssetManager assetManager) {
     mStyle = fontStyle;
     mWeight = fontWeight;
+    mFeatureSettings = fontFeatureSettings;
     mFontFamily = fontFamily;
     mAssetManager = assetManager;
   }
 
   @Override
   public void updateDrawState(TextPaint ds) {
-    apply(ds, mStyle, mWeight, mFontFamily, mAssetManager);
+    apply(ds, mStyle, mWeight, mFeatureSettings, mFontFamily, mAssetManager);
   }
 
   @Override
   public void updateMeasureState(@NonNull TextPaint paint) {
-    apply(paint, mStyle, mWeight, mFontFamily, mAssetManager);
+    apply(paint, mStyle, mWeight, mFeatureSettings, mFontFamily, mAssetManager);
   }
 
   /**
@@ -82,6 +86,7 @@ public class CustomStyleSpan extends MetricAffectingSpan implements ReactSpan {
       Paint paint,
       int style,
       int weight,
+      String fontFeatureSettings,
       @Nullable String family,
       AssetManager assetManager) {
     int oldStyle;
@@ -108,6 +113,10 @@ public class CustomStyleSpan extends MetricAffectingSpan implements ReactSpan {
     } else if (typeface != null) {
       // TODO(t9055065): Fix custom fonts getting applied to text children with different style
       typeface = Typeface.create(typeface, want);
+    }
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      paint.setFontFeatureSettings(fontFeatureSettings);
     }
 
     if (typeface != null) {
