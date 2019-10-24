@@ -85,14 +85,15 @@ public class TextLayoutManager {
             || textAttributes.mFontWeight != UNSET
             || textAttributes.mFontFamily != null) {
           ops.add(
-              new SetSpanOperation(
-                  start,
-                  end,
-                  new CustomStyleSpan(
-                      textAttributes.mFontStyle,
-                      textAttributes.mFontWeight,
-                      textAttributes.mFontFamily,
-                      context.getAssets())));
+            new SetSpanOperation(
+              start,
+              end,
+              new CustomStyleSpan(
+                textAttributes.mFontStyle,
+                textAttributes.mFontWeight,
+                textAttributes.mFontFeatureSettings,
+                textAttributes.mFontFamily,
+                context.getAssets())));
         }
         if (textAttributes.mIsUnderlineTextDecorationSet) {
           ops.add(new SetSpanOperation(start, end, new ReactUnderlineSpan()));
