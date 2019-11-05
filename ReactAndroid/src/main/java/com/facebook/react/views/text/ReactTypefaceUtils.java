@@ -7,6 +7,8 @@
 
 package com.facebook.react.views.text;
 
+import android.text.TextUtils;
+
 import com.facebook.react.bridge.ReadableArray;
 
 import java.util.ArrayList;
@@ -21,25 +23,28 @@ public class ReactTypefaceUtils {
     List<String> features = new ArrayList<>();
     for (int i = 0; i < fontVariantArray.size(); i++) {
       // see https://docs.microsoft.com/en-us/typography/opentype/spec/featurelist
-      switch (fontVariantArray.getString(i)) {
-        case "small-caps":
-          features.add("'smcp'");
-          break;
-        case "oldstyle-nums":
-          features.add("'onum'");
-          break;
-        case "lining-nums":
-          features.add("'lnum'");
-          break;
-        case "tabular-nums":
-          features.add("'tnum'");
-          break;
-        case "proportional-nums":
-          features.add("'pnum'");
-          break;
+      String fontVariant = fontVariantArray.getString(i);
+      if (fontVariant != null) {
+        switch (fontVariant) {
+          case "small-caps":
+            features.add("'smcp'");
+            break;
+          case "oldstyle-nums":
+            features.add("'onum'");
+            break;
+          case "lining-nums":
+            features.add("'lnum'");
+            break;
+          case "tabular-nums":
+            features.add("'tnum'");
+            break;
+          case "proportional-nums":
+            features.add("'pnum'");
+            break;
+        }
       }
     }
 
-    return String.join(", ", features);
+    return TextUtils.join(", ", features);
   }
 }
