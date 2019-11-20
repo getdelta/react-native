@@ -5957,7 +5957,7 @@ react-is@^16.8.6:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
-"react-native-v8@>=0.60.5-patch.0 <0.61.0":
+react-native-v8@0.60.5-patch.0:
   version "0.60.5-patch.0"
   resolved "https://registry.yarnpkg.com/react-native-v8/-/react-native-v8-0.60.5-patch.0.tgz#c2d8a558f509fc26953fd7e5c84e677ebe84090a"
   integrity sha512-sWAyD7qfR7HiEplmBV+TruTDOuj00T1LNjAc5084PZ9tdvOtZVVA72QK2jX6vRzPjryc43lNjCykEvFXdib6Kg==
