@@ -53,8 +53,7 @@ include $(BUILD_SHARED_LIBRARY)
 #   to the specification inside <dir>/<module-dir>/Android.mk.
 $(call import-module,folly)
 $(call import-module,fb)
-$(call import-add-path, $(REACT_COMMON_DIR)/jsi)
-$(call import-module,v8runtime)
+$(call import-module,jsc)
 $(call import-module,fbgloginit)
 $(call import-module,yogajni)
 $(call import-module,cxxreact)
@@ -62,6 +61,8 @@ $(call import-module,jsi)
 $(call import-module,jsiexecutor)
 $(call import-module,jscallinvoker)
 $(call import-module,hermes)
+$(call import-add-path, $(REACT_COMMON_DIR)/jsi)
+$(call import-module,v8runtime)
 
 include $(REACT_SRC_DIR)/turbomodule/core/jni/Android.mk
 
@@ -71,4 +72,5 @@ include $(REACT_SRC_DIR)/turbomodule/core/jni/Android.mk
 
 include $(REACT_SRC_DIR)/jscexecutor/Android.mk
 include $(REACT_SRC_DIR)/../hermes/reactexecutor/Android.mk
+include $(REACT_SRC_DIR)/../v8/reactexecutor/Android.mk
 include $(REACT_SRC_DIR)/modules/blob/jni/Android.mk
